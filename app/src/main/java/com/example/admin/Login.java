@@ -75,9 +75,9 @@ public class Login extends AppCompatActivity {
                 if (task.isSuccessful()){
 
                     FirebaseUser firebaseUser = authprofile.getCurrentUser();
-                    if (firebaseUser.isEmailVerified()){
+                    if (!firebaseUser.isEmailVerified()){
 //                        Toast.makeText(Login.this, "Login Succesfull now", Toast.LENGTH_SHORT).show();
-                        savdata(uemail);
+                        savdata(uemail,upas);
                         startActivity(new Intent(Login.this,Home.class));
                         finish();
 
@@ -126,12 +126,13 @@ public class Login extends AppCompatActivity {
 //            Toast.makeText(this, " Please Login...!",Toast.LENGTH_SHORT).show();
 //        }
 //    }
-    void savdata(String uemail){
+    void savdata(String uemail,String upas){
         SharedPreferences sharedPreferences = getSharedPreferences("lohinDataa",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("loginCounter",true);
         editor.putString("email",uemail);
-//        editor.putString("pass",upas);
+        editor.putString("email",uemail);
+        editor.putString("pass",upas);
         editor.apply();
     }
 }

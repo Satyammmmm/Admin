@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +29,8 @@ public class User_Profile extends AppCompatActivity {
     ImageView imageView;
     FirebaseAuth authprofile;
 
+    Button bt,logout;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,25 @@ public class User_Profile extends AppCompatActivity {
         name = findViewById(R.id.username);
         email = findViewById(R.id.email);
         pas = findViewById(R.id.pass);
+        bt = findViewById(R.id.butt4);
+        logout = findViewById(R.id.logout);
+
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                authprofile.signOut();
+                Toast.makeText(User_Profile.this, "User LogOut Succefully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(User_Profile.this,Login.class));
+            }
+        });
+
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(User_Profile.this,cardview.class));
+            }
+        });
 
         authprofile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authprofile.getCurrentUser();
@@ -53,6 +77,7 @@ public class User_Profile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
                 if (readUserDetails != null){
+//                    namee = firebaseUser.getDisplayName();
                     namee = readUserDetails.user;
                     emaill = firebaseUser.getEmail();
                     pass = readUserDetails.pass;
